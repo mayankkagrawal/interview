@@ -4,12 +4,12 @@
 
 2. i used root user as a administrator and whenever ansible goes controller node to managed node, in background it use ssh and for 
    doing this it requires passowrd. password may be key based and password base but for security purpose always use key based.
-   # ssh-keygen
-   # ssh-copy-id root@managed_node
+    #### ssh-keygen
+    #### ssh-copy-id root@managed_node
 
-# yum install ansible                   //install ansible in system
-   # cp /etc/ansible/ansible.cfg .      //copy the maine ansible config file in current directory which is in /workspace 
-   # vim ansible.cfg 
+#### yum install ansible                   //install ansible in system
+   #### cp /etc/ansible/ansible.cfg .      //copy the maine ansible config file in current directory which is in /workspace 
+   #### vim ansible.cfg 
           1. inventory=/root/interview/inventory
           2. host_key_checking=false //whenever ansible controller node goes to manage node it will not required password.
     
