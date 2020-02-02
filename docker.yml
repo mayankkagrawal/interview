@@ -1,0 +1,31 @@
+- hosts: 192.168.56.105
+  tasks:
+     - name: "installing docker" 
+       package:
+           name: docker-ce
+           state: present
+     - name: "Restart docker service"
+       service:
+           name: docker
+           state: restarted
+           enabled: yes
+     - name: "docker"
+       package: 
+              name: python2-pip
+              state: present
+     - pip:
+          name: docker-py
+     - command: "pip install --upgrade pip"
+     - name: "centos:latest images pull from docker hub"
+       docker_image:
+              name: centos
+              tag: latest
+              pull: yes
+     - name: "load mayank name docker"
+       docker_container:
+                name: "Mayank"
+                image: centos
+                state: started
+                restart: yes
+                interactive: yes
+                tty: yes

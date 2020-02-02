@@ -1,0 +1,43 @@
+- hosts: localhost
+  vars_files:
+        env_variables
+  tasks:
+     - name: "selinux on"
+       selinux:
+         policy: targeted
+         state: enforcing
+     - name: "start firewall"
+       service:
+           name: firewalld
+           state: started
+     - name: "firewalld"
+       firewalld:
+          port: 8081/tcp
+          permanent: yes
+          state: enabled
+     - name: "increase faildelay time to reduce bruteforce attack"
+       template:
+          src: login.defs.j2
+          dest: /etc/login.defs
+     - name: "use te pam_faildelay in auth section"
+       template:
+          src: sshd.j2
+          dest: /etc/pam.d/sshd
+     - name: "block user after 5 unsuccessful upto 2 minutes"
+       command: "authconfig --enablefaillock --faillockargs='deny=5 unlock_time=120' --update "
+     - name: "install aide"
+       yum:
+          name: aide
+          state: present
+     - name: "configure advance intrusion detection enviornment for the passwd and shadow file"
+       template:
+           src: aide.conf.j2
+           dest: /etc/aide.conf
+     - name: "block all the users who are trying to ssh on root only root will allow to ssh"
+       copy:
+          src: access.conf.j2
+          dest: /etc/security/access.conf
+     - name: "copy the sshd file"
+       template:
+            src: sshd.j2
+            dest: /etc/pam.d/sshd

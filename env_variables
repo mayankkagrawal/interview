@@ -1,0 +1,24 @@
+#Enter the IP Address of the Kubernetes Master node to the ad_addr variable.
+ad_addr: 192.168.2.1
+cidr_v: 172.16.0.0/16
+
+packages:
+- kubeadm
+- kubectl
+
+services:
+- docker
+- kubelet
+- firewalld
+
+ports:
+- "6443/tcp"
+- "10250/tcp"
+
+token_file: join_token
+FAIL_DELAY: FAIL_DELAY=10000
+auth: auth   required   pam_faildelay.so
+shadow: /etc/shadow p+u+m
+passwd: /etc/passwd p+u+m
+
+account: account required pam_access.so

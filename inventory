@@ -1,0 +1,5 @@
+[kubernetes-master-nodes]
+192.168.56.100
+
+[kubernetes-worker-nodes]
+192.168.56.105
